@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Clearance &amp; Creepage 計算器</title>
+    <title>Clearance & Creepage Calculator</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -14,10 +14,8 @@
 
         <!-- 標題卡 -->
         <div class="card header-card">
-            <div class="header-icon">⚡</div>
             <div class="header-text">
-                <h1>Clearance <span class="amp">&amp;</span> Creepage</h1>
-                <p>電氣間距檢查計算工具</p>
+                <h1>Clearance & Creepage calculator</h1>
             </div>
         </div>
 
@@ -26,13 +24,12 @@
             <div class="section-header">
                 <div class="badge badge-blue">01</div>
                 <div>
-                    <div class="section-title">絕緣間距</div>
-                    <div class="section-sub">CLEARANCE</div>
+                    <div class="section-title">Clearance</div>
                 </div>
             </div>
 
             <div class="spec-row">
-                <span class="spec-label">規範最小值（Spec Min）</span>
+                <span class="spec-label">Criteria</span>
                 <div class="spec-right">
                     <input type="number" id="clearance-spec" class="spec-input" placeholder="0.00" step="0.01"
                         min="0" />
@@ -42,20 +39,20 @@
 
             <div class="table-wrap">
                 <div class="table-head">
-                    <span>量測名稱</span>
-                    <span class="align-right">數值（MM）</span>
+                    <span>Measure path</span>
+                    <span class="align-right">Unit : mm</span>
                 </div>
                 <div id="clearance-rows"></div>
             </div>
 
             <div class="result-card" id="clearance-result">
-                <span class="result-label">累計距離</span>
+                <span class="result-label">Total distance</span>
                 <span class="result-total" id="clearance-total">— mm</span>
                 <span class="result-verdict" id="clearance-verdict"></span>
             </div>
 
             <div class="btn-row">
-                <button class="btn-reset" onclick="resetSection('clearance')">清除全部</button>
+                <button class="btn-reset" onclick="resetSection('clearance')">Clear All</button>
             </div>
         </div>
 
@@ -71,13 +68,12 @@
             <div class="section-header">
                 <div class="badge badge-green">02</div>
                 <div>
-                    <div class="section-title">爬電距離</div>
-                    <div class="section-sub">CREEPAGE</div>
+                    <div class="section-title">Creepage</div>
                 </div>
             </div>
 
             <div class="spec-row">
-                <span class="spec-label">規範最小值（Spec Min）</span>
+                <span class="spec-label">Criteria</span>
                 <div class="spec-right">
                     <input type="number" id="creepage-spec" class="spec-input" placeholder="0.00" step="0.01" min="0" />
                     <span class="unit">mm</span>
@@ -86,25 +82,25 @@
 
             <div class="table-wrap">
                 <div class="table-head">
-                    <span>量測名稱</span>
-                    <span class="align-right">數值（MM）</span>
+                    <span>Measure path</span>
+                    <span class="align-right">unit : mm</span>
                 </div>
                 <div id="creepage-rows"></div>
             </div>
 
             <div class="result-card" id="creepage-result">
-                <span class="result-label">累計距離</span>
+                <span class="result-label">Total distance</span>
                 <span class="result-total" id="creepage-total">— mm</span>
                 <span class="result-verdict" id="creepage-verdict"></span>
             </div>
 
             <div class="btn-row">
-                <button class="btn-reset" onclick="resetSection('creepage')">清除全部</button>
+                <button class="btn-reset" onclick="resetSection('creepage')">Clear All</button>
             </div>
         </div>
 
         <!-- 頁尾 -->
-        <div class="footer">Clearance &amp; Creepage Checker &nbsp;·&nbsp; 單位 mm &nbsp;·&nbsp; IEC 60664-1</div>
+        <div class="footer">Clearance & Creepage Checker &nbsp;·&nbsp; James Hsieh</div>
 
     </div>
 
