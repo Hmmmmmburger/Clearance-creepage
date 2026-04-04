@@ -4,7 +4,7 @@
  */
 
 const SECTIONS = ['clearance', 'creepage'];
-const MAX_ROWS = 7;
+const MAX_ROWS = 6;
 
 /* =============================================
    初始化：產生每個區塊的 7 列輸入格
@@ -23,7 +23,7 @@ function initRows(id) {
         <input
           class="input-name"
           type="text"
-          placeholder="量測名稱（選填）"
+          placeholder="Parts measured（Optional）"
           maxlength="30"
           id="${id}-name-${i}"
         />
@@ -65,7 +65,7 @@ function calculate(id) {
     const totalEl = document.getElementById(`${id}-total`);
     const verdict = document.getElementById(`${id}-verdict`);
     const card = document.getElementById(`${id}-result`);
-    const name = id === 'clearance' ? '絕緣間距' : '爬電距離';
+    const name = id === 'clearance' ? 'Clearance' : 'Creepage';
     const spec = parseFloat(specEl.value);
 
     // 沒有任何數值 → 重置
@@ -88,10 +88,10 @@ function calculate(id) {
     // 判定
     if (total >= spec) {
         card.className = 'result-card pass';
-        verdict.textContent = `✅ ${name}符合規範（${total.toFixed(3)} mm ≥ ${spec.toFixed(3)} mm）`;
+        verdict.textContent = `✅ ${name} meets criteria（${total.toFixed(3)} mm ≥ ${spec.toFixed(3)} mm）`;
     } else {
         card.className = 'result-card fail';
-        verdict.textContent = `❌ ${name}不符規範！差距 ${(spec - total).toFixed(3)} mm`;
+        verdict.textContent = `❌ ${name} does NOT meet criteria, still need ${(spec - total).toFixed(3)} mm`;
     }
 }
 
