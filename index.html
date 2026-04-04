@@ -4,130 +4,109 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Clearance & Creepage 計算器</title>
+    <title>Clearance &amp; Creepage 計算器</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-    <header class="app-header">
-        <div class="header-icon">⚡</div>
-        <div class="header-text">
-            <h1>Clearance <span class="amp">&amp;</span> Creepage</h1>
-            <p>電氣間距檢查計算工具</p>
+    <div class="app-wrapper">
+
+        <!-- 標題卡 -->
+        <div class="card header-card">
+            <div class="header-icon">⚡</div>
+            <div class="header-text">
+                <h1>Clearance <span class="amp">&amp;</span> Creepage</h1>
+                <p>電氣間距檢查計算工具</p>
+            </div>
         </div>
-    </header>
 
-    <main class="app-main">
-
-        <!-- ═══════════════════════════════════════
-         上區塊：絕緣間距 Clearance
-    ═══════════════════════════════════════ -->
-        <section class="check-section" id="clearance-section">
-            <div class="section-header clearance-header">
-                <div class="section-badge">01</div>
+        <!-- 上區塊：絕緣間距 -->
+        <div class="card">
+            <div class="section-header">
+                <div class="badge badge-blue">01</div>
                 <div>
                     <div class="section-title">絕緣間距</div>
-                    <div class="section-subtitle">Clearance</div>
+                    <div class="section-sub">CLEARANCE</div>
                 </div>
             </div>
 
-            <!-- 規範最小值 -->
             <div class="spec-row">
-                <label class="spec-label">規範最小值（Spec Min）</label>
-                <div class="spec-input-wrap">
+                <span class="spec-label">規範最小值（Spec Min）</span>
+                <div class="spec-right">
                     <input type="number" id="clearance-spec" class="spec-input" placeholder="0.00" step="0.01"
                         min="0" />
-                    <span class="unit-tag">mm</span>
+                    <span class="unit">mm</span>
                 </div>
             </div>
 
-            <!-- 7 個量測輸入列 -->
-            <div class="measure-table">
-                <div class="measure-head">
-                    <span class="col-name">量測名稱</span>
-                    <span class="col-value">數值 (mm)</span>
+            <div class="table-wrap">
+                <div class="table-head">
+                    <span>量測名稱</span>
+                    <span class="align-right">數值（MM）</span>
                 </div>
-                <div id="clearance-rows" class="measure-body">
-                    <!-- 由 JS 產生 -->
-                </div>
+                <div id="clearance-rows"></div>
             </div>
 
-            <!-- 結果 -->
-            <div class="result-block" id="clearance-result">
-                <div class="result-inner">
-                    <span class="result-label">累計距離</span>
-                    <span class="result-total" id="clearance-total">— mm</span>
-                    <span class="result-verdict" id="clearance-verdict"></span>
-                </div>
+            <div class="result-card" id="clearance-result">
+                <span class="result-label">累計距離</span>
+                <span class="result-total" id="clearance-total">— mm</span>
+                <span class="result-verdict" id="clearance-verdict"></span>
             </div>
 
-            <!-- 操作按鈕 -->
-            <div class="action-row">
-                <button class="btn btn-reset" onclick="resetSection('clearance')">清除全部</button>
+            <div class="btn-row">
+                <button class="btn-reset" onclick="resetSection('clearance')">清除全部</button>
             </div>
-        </section>
+        </div>
 
-        <div class="section-divider">
+        <!-- 分隔線 -->
+        <div class="divider">
             <span class="divider-line"></span>
-            <span class="divider-icon">✦</span>
+            <span class="divider-dot">✦</span>
             <span class="divider-line"></span>
         </div>
 
-        <!-- ═══════════════════════════════════════
-         下區塊：爬電距離 Creepage
-    ═══════════════════════════════════════ -->
-        <section class="check-section" id="creepage-section">
-            <div class="section-header creepage-header">
-                <div class="section-badge">02</div>
+        <!-- 下區塊：爬電距離 -->
+        <div class="card">
+            <div class="section-header">
+                <div class="badge badge-green">02</div>
                 <div>
                     <div class="section-title">爬電距離</div>
-                    <div class="section-subtitle">Creepage</div>
+                    <div class="section-sub">CREEPAGE</div>
                 </div>
             </div>
 
-            <!-- 規範最小值 -->
             <div class="spec-row">
-                <label class="spec-label">規範最小值（Spec Min）</label>
-                <div class="spec-input-wrap">
+                <span class="spec-label">規範最小值（Spec Min）</span>
+                <div class="spec-right">
                     <input type="number" id="creepage-spec" class="spec-input" placeholder="0.00" step="0.01" min="0" />
-                    <span class="unit-tag">mm</span>
+                    <span class="unit">mm</span>
                 </div>
             </div>
 
-            <!-- 7 個量測輸入列 -->
-            <div class="measure-table">
-                <div class="measure-head">
-                    <span class="col-name">量測名稱</span>
-                    <span class="col-value">數值 (mm)</span>
+            <div class="table-wrap">
+                <div class="table-head">
+                    <span>量測名稱</span>
+                    <span class="align-right">數值（MM）</span>
                 </div>
-                <div id="creepage-rows" class="measure-body">
-                    <!-- 由 JS 產生 -->
-                </div>
+                <div id="creepage-rows"></div>
             </div>
 
-            <!-- 結果 -->
-            <div class="result-block" id="creepage-result">
-                <div class="result-inner">
-                    <span class="result-label">累計距離</span>
-                    <span class="result-total" id="creepage-total">— mm</span>
-                    <span class="result-verdict" id="creepage-verdict"></span>
-                </div>
+            <div class="result-card" id="creepage-result">
+                <span class="result-label">累計距離</span>
+                <span class="result-total" id="creepage-total">— mm</span>
+                <span class="result-verdict" id="creepage-verdict"></span>
             </div>
 
-            <!-- 操作按鈕 -->
-            <div class="action-row">
-                <button class="btn btn-reset" onclick="resetSection('creepage')">清除全部</button>
+            <div class="btn-row">
+                <button class="btn-reset" onclick="resetSection('creepage')">清除全部</button>
             </div>
-        </section>
+        </div>
 
-    </main>
+        <!-- 頁尾 -->
+        <div class="footer">Clearance &amp; Creepage Checker &nbsp;·&nbsp; 單位 mm &nbsp;·&nbsp; IEC 60664-1</div>
 
-    <footer class="app-footer">
-        <span>Clearance &amp; Creepage Checker</span>
-        <span class="footer-dot">·</span>
-        <span>單位 mm · IEC 60664-1</span>
-    </footer>
+    </div>
 
     <script src="app.js"></script>
 </body>
