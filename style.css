@@ -140,7 +140,7 @@ body {
 
 .spec-label {
     font-family: 'Microsoft JhengHei', 'Calibri', sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
     color: #5a6480;
     white-space: nowrap;
@@ -204,7 +204,7 @@ body {
 
 .table-head span {
     font-family: 'Microsoft JhengHei', 'Calibri', sans-serif;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 600;
     color: #94a3b8;
     letter-spacing: 0.4px;
@@ -307,7 +307,7 @@ body {
 
 .result-label {
     font-family: 'Microsoft JhengHei', 'Calibri', sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
     color: #64748b;
     letter-spacing: 0.2px;
