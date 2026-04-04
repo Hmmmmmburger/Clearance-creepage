@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>爬電距離計算器</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="title">⚡ 電氣間距計算器</h2>
+
+        <!-- 模式選擇 -->
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="creepage">爬電距離</button>
+            <button class="mode-btn" data-mode="clearance">絕緣間距</button>
+        </div>
+
+        <!-- 規範輸入 -->
+        <div class="spec-section">
+            <label>規範最小值 (mm)</label>
+            <input type="number" id="specValue" placeholder="例：8.0" step="0.1" min="0" />
+        </div>
+
+        <!-- 操作說明 -->
+        <div class="instruction">
+            <span class="instruction-icon">👆</span>
+            <span>在 Assembly 中依序點選邊或頂點，系統將計算相鄰兩點間的最短直線距離並累加</span>
+        </div>
+
+        <!-- 點位清單 -->
+        <div class="points-section">
+            <div class="points-header">
+                <span>已選取點位</span>
+                <button id="clearBtn" class="clear-btn">清除全部</button>
+            </div>
+            <div id="pointsList" class="points-list">
+                <div class="empty-hint">尚未選取任何點位</div>
+            </div>
+        </div>
+
+        <!-- 距離明細 -->
+        <div class="segments-section" id="segmentsSection" style="display:none">
+            <div class="segments-header">距離明細</div>
+            <div id="segmentsList" class="segments-list"></div>
+        </div>
+
+        <!-- 結果顯示 -->
+        <div id="resultCard" class="result-card result-idle">
+            <div class="result-label">累計距離</div>
+            <div class="result-value" id="totalDistance">— mm</div>
+            <div class="result-status" id="resultStatus"></div>
+        </div>
+
+        <!-- 操作按鈕 -->
+        <div class="actions">
+            <button id="undoBtn" class="action-btn secondary" disabled>↩ 撤銷上一點</button>
+            <button id="calculateBtn" class="action-btn primary" disabled>重新計算</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
