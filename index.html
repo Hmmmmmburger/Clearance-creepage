@@ -5,106 +5,519 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clearance & Creepage Calculator</title>
-    <link rel="stylesheet" href="style.css" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f4f4f2;
+            --surface: #ffffff;
+            --border: #d0d0cc;
+            --border-light: #e8e8e4;
+            --text: #1c1c1a;
+            --muted: #888880;
+            --label: #333333;
+            --green: #1a6038;
+            --green-bg: #e6f5ec;
+            --green-border: #a8d4bc;
+            --red: #981825;
+            --red-bg: #faeaec;
+            --red-border: #d4a8b0;
+            --sans: 'Calibri', 'Microsoft JhengHei', '微軟正黑體', sans-serif;
+            /*--mono: 'Calibri', 'Microsoft JhengHei', '微軟正黑體', monospace;*/
+        }
+
+        body {
+            background: var(--bg);
+            font-family: var(--sans);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 36px 20px 80px;
+        }
+
+        .app {
+            max-width: 520px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .04);
+            overflow: hidden;
+        }
+
+        /* ── Header card ── */
+        .hdr {
+            padding: 16px 20px;
+        }
+
+        .hdr h1 {
+            font-size: .9rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .hdr p {
+            font-size: .72rem;
+            color: var(--muted);
+            margin-top: 4px;
+            letter-spacing: .04em;
+        }
+
+        /* ── Card head ── */
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .card-num {
+            font-family: var(--mono);
+            font-size: .65rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            background: var(--text);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: .9rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            flex: 1;
+        }
+
+        .card-body {
+            padding: 18px;
+        }
+
+        /* ── Criteria row ── */
+        .criteria-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .criteria-lbl {
+            font-size: .90rem;
+            color: var(--label);
+        }
+
+        .criteria-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .criteria-right input {
+            font-family: var(--mono);
+            font-size: .9rem;
+            width: 90px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: var(--bg);
+            color: var(--text);
+            padding: 6px 10px;
+            outline: none;
+            text-align: right;
+            transition: border-color .15s;
+            -moz-appearance: textfield;
+        }
+
+        .criteria-right input::-webkit-outer-spin-button,
+        .criteria-right input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .criteria-right input:focus {
+            border-color: var(--text);
+        }
+
+        .unit {
+            font-size: .68rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* ── Measure table ── */
+        .table-wrap {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .table-head {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            padding: 7px 18px;
+            background: var(--text);
+        }
+
+        .table-head span {
+            font-size: .7rem;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .table-head .align-right {
+            text-align: right;
+        }
+
+        .measure-row {
+            display: grid;
+            grid-template-columns: 1fr 100px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .measure-row:last-child {
+            border-bottom: none;
+        }
+
+        .name-cell {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0 8px 0 18px;
+            border-right: 1px solid var(--border-light);
+        }
+
+        .row-num {
+            width: 18px;
+            height: 18px;
+            background: var(--border-light);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: .6rem;
+            font-weight: 700;
+            color: var(--muted);
+            flex-shrink: 0;
+        }
+
+        .input-name {
+            flex: 1;
+            padding: 9px 4px;
+            border: none;
+            outline: none;
+            font-family: var(--sans);
+            font-size: .8rem;
+            color: var(--text);
+            background: transparent;
+        }
+
+        .input-name::placeholder {
+            color: var(--border);
+            font-size: .75rem;
+        }
+
+        .input-value {
+            padding: 10px 18px;
+            border: none;
+            outline: none;
+            font-family: var(--mono);
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--text);
+            text-align: right;
+            background: transparent;
+            -moz-appearance: textfield;
+            width: 100%;
+        }
+
+        .input-value::-webkit-outer-spin-button,
+        .input-value::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .input-name:focus,
+        .input-value:focus {
+            background: var(--bg);
+        }
+
+        /* ── Result row ── */
+        .result-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border-light);
+            transition: background .2s;
+        }
+
+        .result-lbl {
+            font-size: .9rem;
+            color: var(--label);
+        }
+
+        .result-total {
+            font-family: var(--mono);
+            font-size: .95rem;
+            font-weight: 600;
+        }
+
+        /* ── Verdict badge ── */
+        .verdict-row {
+            padding: 10px 18px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .verdict-badge {
+            font-family: var(--mono);
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            padding: 5px 14px;
+            border-radius: 7px;
+            display: inline-block;
+        }
+
+        .v-pass {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid var(--green-border);
+        }
+
+        .v-fail {
+            background: var(--red-bg);
+            color: var(--red);
+            border: 1px solid var(--red-border);
+        }
+
+        .v-none {
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        /* ── Clear button ── */
+        .btn-row {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 18px;
+        }
+
+        .btn-reset {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--muted);
+            font-family: var(--sans);
+            font-size: .72rem;
+            padding: 5px 14px;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .btn-reset:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* ── Divider ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider-dot {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            font-size: .66rem;
+            color: var(--muted);
+            letter-spacing: .06em;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="app">
 
-    <div class="app-wrapper">
-
-        <!-- 標題卡 -->
-        <div class="card header-card">
-            <div class="header-text">
-                <h1>Clearance & Creepage calculator</h1>
-            </div>
+        <!-- Header -->
+        <div class="card hdr">
+            <h1>絕緣間距 &amp; 爬電距離</h1>
+            <p>Clearance &amp; Creepage check</p>
         </div>
 
-        <!-- 上區塊：絕緣間距 -->
+        <!-- 01 Clearance -->
         <div class="card">
-            <div class="section-header">
-                <div class="badge badge-blue">01</div>
-                <div>
-                    <div class="section-title">Clearance</div>
-                </div>
+            <div class="card-head">
+                <span class="card-num">01</span>
+                <span class="card-title">絕緣間距</span>
             </div>
-
-            <div class="spec-row">
-                <span class="spec-label">Criteria</span>
-                <div class="spec-right">
-                    <input type="number" id="clearance-spec" class="spec-input" placeholder="0.00" step="0.01"
-                        min="0" />
+            <div class="criteria-row">
+                <span class="criteria-lbl">規範值</span>
+                <div class="criteria-right">
+                    <input type="number" id="clearance-spec" placeholder="0.00" step="0.01" min="0" />
                     <span class="unit">mm</span>
                 </div>
             </div>
-
             <div class="table-wrap">
                 <div class="table-head">
-                    <span>Measure path</span>
+                    <span>量測路徑</span>
                     <span class="align-right">Unit : mm</span>
                 </div>
                 <div id="clearance-rows"></div>
             </div>
-
-            <div class="result-card" id="clearance-result">
-                <span class="result-label">Total distance</span>
-                <span class="result-total" id="clearance-total">— mm</span>
-                <span class="result-verdict" id="clearance-verdict"></span>
+            <div class="result-row">
+                <span class="result-lbl">總距離</span>
+                <span class="result-total" id="clearance-total">mm</span>
             </div>
-
+            <div class="verdict-row" id="clearance-verdict-row">
+                <span class="v-none" id="clearance-verdict">輸入量測值與規範值判定</span>
+            </div>
             <div class="btn-row">
                 <button class="btn-reset" onclick="resetSection('clearance')">Clear All</button>
             </div>
         </div>
 
-        <!-- 分隔線 -->
+        <!-- Divider -->
         <div class="divider">
             <span class="divider-line"></span>
             <span class="divider-dot">✦</span>
             <span class="divider-line"></span>
         </div>
 
-        <!-- 下區塊：爬電距離 -->
+        <!-- 02 Creepage -->
         <div class="card">
-            <div class="section-header">
-                <div class="badge badge-green">02</div>
-                <div>
-                    <div class="section-title">Creepage</div>
-                </div>
+            <div class="card-head">
+                <span class="card-num">02</span>
+                <span class="card-title">Creepage</span>
             </div>
-
-            <div class="spec-row">
-                <span class="spec-label">Criteria</span>
-                <div class="spec-right">
-                    <input type="number" id="creepage-spec" class="spec-input" placeholder="0.00" step="0.01" min="0" />
+            <div class="criteria-row">
+                <span class="criteria-lbl">Criteria</span>
+                <div class="criteria-right">
+                    <input type="number" id="creepage-spec" placeholder="0.00" step="0.01" min="0" />
                     <span class="unit">mm</span>
                 </div>
             </div>
-
             <div class="table-wrap">
                 <div class="table-head">
                     <span>Measure path</span>
-                    <span class="align-right">unit : mm</span>
+                    <span class="align-right">Unit : mm</span>
                 </div>
                 <div id="creepage-rows"></div>
             </div>
-
-            <div class="result-card" id="creepage-result">
-                <span class="result-label">Total distance</span>
-                <span class="result-total" id="creepage-total">— mm</span>
-                <span class="result-verdict" id="creepage-verdict"></span>
+            <div class="result-row">
+                <span class="result-lbl">總距離</span>
+                <span class="result-total" id="creepage-total">mm</span>
             </div>
-
+            <div class="verdict-row" id="creepage-verdict-row">
+                <span class="v-none" id="creepage-verdict">輸入量測值與規範值判定</span>
+            </div>
             <div class="btn-row">
                 <button class="btn-reset" onclick="resetSection('creepage')">Clear All</button>
             </div>
         </div>
 
-        <!-- 頁尾 -->
-        <div class="footer">Clearance & Creepage Checker &nbsp;·&nbsp; James Hsieh</div>
-
+        <div class="footer">Clearance &amp; Creepage Checker &nbsp;·&nbsp; James Hsieh</div>
     </div>
 
-    <script src="app.js"></script>
+    <script>
+        const SECTIONS = ['clearance', 'creepage'];
+        const MAX_ROWS = 6;
+
+        function initRows(id) {
+            const container = document.getElementById(`${id}-rows`);
+            container.innerHTML = '';
+            for (let i = 1; i <= MAX_ROWS; i++) {
+                const row = document.createElement('div');
+                row.className = 'measure-row';
+                row.innerHTML = `
+        <div class="name-cell">
+          <span class="row-num">${i}</span>
+          <input class="input-name" type="text" placeholder="量測位置" maxlength="30" id="${id}-name-${i}" />
+        </div>
+        <input class="input-value" type="number" placeholder="—" step="0.001" min="0" id="${id}-val-${i}" />
+      `;
+                container.appendChild(row);
+                row.querySelector('.input-value').addEventListener('input', () => calculate(id));
+            }
+        }
+
+        function calculate(id) {
+            let total = 0, hasValue = false;
+            for (let i = 1; i <= MAX_ROWS; i++) {
+                const v = parseFloat(document.getElementById(`${id}-val-${i}`).value);
+                if (!isNaN(v) && v >= 0) { total += v; hasValue = true; }
+            }
+
+            const spec = parseFloat(document.getElementById(`${id}-spec`).value);
+            const totalEl = document.getElementById(`${id}-total`);
+            const verdictEl = document.getElementById(`${id}-verdict`);
+            const name = id === 'clearance' ? 'Clearance' : 'Creepage';
+
+            if (!hasValue) {
+                totalEl.textContent = '— mm';
+                verdictEl.className = 'v-none';
+                verdictEl.textContent = '輸入量測值與規範以判定';
+                return;
+            }
+
+            totalEl.textContent = `${total.toFixed(3)} mm`;
+
+            if (isNaN(spec) || spec <= 0) {
+                verdictEl.className = 'v-none';
+                verdictEl.textContent = '請輸入規範最小值以判定';
+                return;
+            }
+
+            if (total >= spec) {
+                verdictEl.className = 'verdict-badge v-pass';
+                verdictEl.textContent = `PASS`;
+            } else {
+                verdictEl.className = 'verdict-badge v-fail';
+                verdictEl.textContent = `FAIL　不足 ${(spec - total).toFixed(3)} mm`;
+            }
+        }
+
+        function resetSection(id) {
+            for (let i = 1; i <= MAX_ROWS; i++) {
+                document.getElementById(`${id}-name-${i}`).value = '';
+                document.getElementById(`${id}-val-${i}`).value = '';
+            }
+            calculate(id);
+        }
+
+        SECTIONS.forEach(id => {
+            initRows(id);
+            document.getElementById(`${id}-spec`).addEventListener('input', () => calculate(id));
+        });
+    </script>
 </body>
 
 </html>
