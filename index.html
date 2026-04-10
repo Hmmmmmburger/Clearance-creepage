@@ -172,10 +172,9 @@
         }
 
         .table-head span {
-            font-size: .7rem;
+            font-size: .8rem;
             letter-spacing: .07em;
-            text-transform: uppercase;
-            color: #94a3b8;
+            color: #ffffff;
             font-weight: 500;
         }
 
@@ -202,15 +201,15 @@
         }
 
         .row-num {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             background: var(--border-light);
             border-radius: 3px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: var(--mono);
-            font-size: .6rem;
+            font-size: .65rem;
             font-weight: 700;
             color: var(--muted);
             flex-shrink: 0;
@@ -416,10 +415,10 @@
         <div class="card">
             <div class="card-head">
                 <span class="card-num">02</span>
-                <span class="card-title">Creepage</span>
+                <span class="card-title">爬電距離</span>
             </div>
             <div class="criteria-row">
-                <span class="criteria-lbl">Criteria</span>
+                <span class="criteria-lbl">規範值</span>
                 <div class="criteria-right">
                     <input type="number" id="creepage-spec" placeholder="0.00" step="0.01" min="0" />
                     <span class="unit">mm</span>
@@ -427,7 +426,7 @@
             </div>
             <div class="table-wrap">
                 <div class="table-head">
-                    <span>Measure path</span>
+                    <span>量測路徑</span>
                     <span class="align-right">Unit : mm</span>
                 </div>
                 <div id="creepage-rows"></div>
@@ -444,7 +443,7 @@
             </div>
         </div>
 
-        <div class="footer">Clearance &amp; Creepage Checker &nbsp;·&nbsp; James Hsieh</div>
+        <div class="footer">Clearance &amp; Creepage Checker &nbsp;</div>
     </div>
 
     <script>
@@ -462,7 +461,7 @@
           <span class="row-num">${i}</span>
           <input class="input-name" type="text" placeholder="量測位置" maxlength="30" id="${id}-name-${i}" />
         </div>
-        <input class="input-value" type="number" placeholder="—" step="0.001" min="0" id="${id}-val-${i}" />
+        <input class="input-value" type="number" placeholder="-" step="0.001" min="0" id="${id}-val-${i}" />
       `;
                 container.appendChild(row);
                 row.querySelector('.input-value').addEventListener('input', () => calculate(id));
